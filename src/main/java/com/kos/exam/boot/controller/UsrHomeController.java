@@ -31,10 +31,18 @@ public class UsrHomeController {
 		return "또 만나요";
 	}
 	
-	@RequestMapping("/usr/home/main4")
+	@RequestMapping("/usr/home/getCount")
 	@ResponseBody
-	public int showMain4() {
+	public int getCount() {
 		count++;
 		return count;
 	}
+	
+	@RequestMapping("/usr/home/doSetCount")
+	@ResponseBody
+	public String doSetCount(int count) {
+		this.count=count;
+		return "count의 값이 "+this.count+"으로 초기화 되었습니다.";
+	}
+	
 }
