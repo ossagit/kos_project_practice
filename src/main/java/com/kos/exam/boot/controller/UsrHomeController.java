@@ -44,5 +44,4 @@ public class UsrHomeController {
 		this.count=count;
 		return "count의 값이 "+this.count+"으로 초기화 되었습니다.";
 	}
-	
 }
