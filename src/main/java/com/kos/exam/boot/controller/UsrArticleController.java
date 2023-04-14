@@ -1,5 +1,7 @@
 package com.kos.exam.boot.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,12 @@ public class UsrArticleController {
 			return id + "번 게시물이 존재하지 않습니다.";
 		}
 		return article;
+	}
+
+	@RequestMapping("/usr/article/getArticles")
+	@ResponseBody
+	public List<Article> getArticles() {
+		return articleService.getArticles();
 	}
 
 	// 서비스 메서드 끝
