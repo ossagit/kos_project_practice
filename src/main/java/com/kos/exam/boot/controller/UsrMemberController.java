@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kos.exam.boot.service.MemberService;
+import com.kos.exam.boot.util.Ut;
 import com.kos.exam.boot.vo.Member;
 
 @Controller
@@ -51,22 +52,22 @@ public class UsrMemberController {
 			return "해당 로그인 아이디는 이미 사용중입니다.";
 		}
 		
-		if(loginId==null||loginId.trim().length()==0) {
+		if(Ut.empty(loginId)) {
 			return "loginId를 입력해주세요";
 		}
-		if(loginPw==null||loginPw.trim().length()==0) {
+		if(Ut.empty(loginPw)) {
 			return "loginPw를 입력해주세요";
 		}
-		if(name==null||name.trim().length()==0) {
+		if(Ut.empty(name)) {
 			return "name를 입력해주세요";
 		}
-		if(nickname==null||nickname.trim().length()==0) {
+		if(Ut.empty(nickname)) {
 			return "nickname를 입력해주세요";
 		}
-		if(cellphoneNo==null||cellphoneNo.trim().length()==0) {
+		if(Ut.empty(cellphoneNo)) {
 			return "cellphoneNo를 입력해주세요";
 		}
-		if(email==null||email.trim().length()==0) {
+		if(Ut.empty(email)) {
 			return "email를 입력해주세요";
 		}
 		Member member = memberService.getMember(id);
