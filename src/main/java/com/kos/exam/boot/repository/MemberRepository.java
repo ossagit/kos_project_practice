@@ -27,4 +27,6 @@ public interface MemberRepository {
 	
 	
 	public int getLastInsertId();
+
+	public Member getMemberByLoginId(@Param("loginId")String loginId);
 }

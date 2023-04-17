@@ -24,8 +24,16 @@ public class MemberService {
 	}
 
 	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+		Member oldMember = getMemberByLoginId(loginId);
+		if(oldMember!=null) {
+			return -1;
+		}
 		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 		return memberRepository.getLastInsertId();
+	}
+
+	private Member getMemberByLoginId(String loginId) {
+		return memberRepository.getMemberByLoginId(loginId);
 	}
 
 	public void deleteMember(int id) {
