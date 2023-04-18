@@ -24,22 +24,22 @@ public class UsrMemberController {
 	@GetMapping("/doJoin")
 	public ResultData<?> doJoin(Member member){
 		if(Ut.empty(member.getLoginId())) {
-			return ResultData.from("F-1", "loginId을 입력해주세요.",null);
+			return ResultData.from("F-1", "loginId을 입력해주세요.");
 		}
 		if(Ut.empty(member.getLoginPw())) {
-			return ResultData.from("F-1", "loginPw을 입력해주세요.",null);
+			return ResultData.from("F-1", "loginPw을 입력해주세요.");
 		}
 		if(Ut.empty(member.getName())) {
-			return ResultData.from("F-1", "name을 입력해주세요.",null);
+			return ResultData.from("F-1", "name을 입력해주세요.");
 		}
 		if(Ut.empty(member.getNickname())) {
-			return ResultData.from("F-1", "nickname을 입력해주세요.",null);
+			return ResultData.from("F-1", "nickname을 입력해주세요.");
 		}
 		if(Ut.empty(member.getCellphoneNo())) {
-			return ResultData.from("F-1", "cellphoneNo을 입력해주세요.",null);
+			return ResultData.from("F-1", "cellphoneNo을 입력해주세요.");
 		}
 		if(Ut.empty(member.getEmail())) {
-			return ResultData.from("F-1", "email을 입력해주세요.",null);
+			return ResultData.from("F-1", "email을 입력해주세요.");
 		}
 		
 		ResultData<Integer> joinRd = memberService.join(member);
@@ -49,7 +49,7 @@ public class UsrMemberController {
 		}		
 		Member getMember = memberService.getMemberById(joinRd.getData1());
 		
-		return ResultData.newData(joinRd,getMember);
+		return ResultData.newData(joinRd,"member",getMember);
 	}
 	
 	@GetMapping("/doLogin")
@@ -61,29 +61,29 @@ public class UsrMemberController {
 		}
 		
 		if(isLogined) {
-			return ResultData.from("F-5", "이미 로그인 되었습니다.", null);
+			return ResultData.from("F-5", "이미 로그인 되었습니다.");
 		}
 		
 		if(Ut.empty(member.getLoginId())) {
-			return ResultData.from("F-1", "loginId을 입력해주세요.",null);
+			return ResultData.from("F-1", "loginId을 입력해주세요.");
 		}
 		if(Ut.empty(member.getLoginPw())) {
-			return ResultData.from("F-1", "loginPw을 입력해주세요.",null);
+			return ResultData.from("F-2", "loginPw을 입력해주세요.");
 		}
 		
 		Member getMember = memberService.getMemberByLoginId(member.getLoginId());
 		
 		if(getMember == null) {
-			return ResultData.from("F-3", "존재하지 않은 로그인 아이디 입니다.",null);
+			return ResultData.from("F-3", "존재하지 않은 로그인 아이디 입니다.");
 		}
 		
 		if(!getMember.getLoginPw().equals(member.getLoginPw())) {
-			return ResultData.from("F-4", "비밀번호가 일치하지 않습니다.",null);
+			return ResultData.from("F-4", "비밀번호가 일치하지 않습니다.");
 		}
 		
 		httpSession.setAttribute("loginedMemberId", getMember.getId());
 	
-		return ResultData.from("S-1",Ut.f("(%s)님 환영합니다.", member.getLoginId()),null);
+		return ResultData.from("S-1",Ut.f("(%s)님 환영합니다.", member.getLoginId()));
 	}
 	
 	@GetMapping("/doLogout")
@@ -95,12 +95,12 @@ public class UsrMemberController {
 		}
 		
 		if(isLogined) {
-			return ResultData.from("S-1", "이미 로그아웃 상태입니다.",null);
+			return ResultData.from("S-1", "이미 로그아웃 상태입니다.");
 		}
 		
 		httpSession.removeAttribute("loginedMemberId");
 	
-		return ResultData.from("S-2","로그아웃 되었습니다.",null);
+		return ResultData.from("S-2","로그아웃 되었습니다.");
 	}
 	
 	
