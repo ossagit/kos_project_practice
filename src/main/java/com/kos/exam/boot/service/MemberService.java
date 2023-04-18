@@ -28,12 +28,23 @@ public class MemberService {
 		if(oldMember!=null) {
 			return -1;
 		}
-		memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
-		return memberRepository.getLastInsertId();
+		
+		if(getMemberByNameAndEmail(name,email)!=null) {
+			return -2;
+		}
+		
+		else {
+			memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
+			return memberRepository.getLastInsertId();
+		}
 	}
 
 	private Member getMemberByLoginId(String loginId) {
 		return memberRepository.getMemberByLoginId(loginId);
+	}
+	
+	private Member getMemberByNameAndEmail(String name, String email) {
+		return memberRepository.getMemberByNameAndEmail(name, email);
 	}
 
 	public void deleteMember(int id) {

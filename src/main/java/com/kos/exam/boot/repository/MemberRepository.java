@@ -29,4 +29,6 @@ public interface MemberRepository {
 	public int getLastInsertId();
 
 	public Member getMemberByLoginId(@Param("loginId")String loginId);
+	
+	public Member getMemberByNameAndEmail(@Param("name")String name, @Param("name")String email);
 }
