@@ -2,33 +2,53 @@ package com.kos.exam.boot.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.kos.exam.boot.vo.Member;
 
 @Mapper
 public interface MemberRepository {
+	
+	@Insert("""
+			INSERT INTO `member`
+			SET regDate = NOW(),
+			updateDate = NOW(),
+			loginId = #{loginId},
+			loginPw = #{loginPw},
+			`name` = #{name},
+			nickname = #{nickname},
+			cellphoneNo = #{cellphoneNo},
+			email = #{email}
+			""")
+	void insertMember(Member member);
 
-	
-	public Member getMember(@Param("id") int id);
+	@Select("""
+			SELECT * FROM MEMBER ORDER BY id DESC
+			""")
+	List<Member> selectMemberList();
 
-	
-	public List<Member> getMembers();
+	@Select("""
+			SELECT * FROM MEMBER WHERE id=#{id}
+			""")
+	Member selectMemberById(int id);
 
-	
-	public void join(@Param("loginId")String loginId, @Param("loginPw")String loginPw, @Param("name")String name, @Param("nickname")String nickname, @Param("cellphoneNo")String cellphoneNo, @Param("email")String email);
+	@Select("""
+			SELECT LAST_INSERT_ID()
+			""")
+	int selectLastInsertId();
 
-	
-	public void deleteMember(@Param("id")int id);
+	@Select("""
+			SELECT * FROM MEMBER WHERE loginId=#{loginId}
+			""")
+	Member selectMemberByLoginId(String loginId);
 
+	@Select("""
+			SELECT * FROM MEMBER 
+			WHERE email=#{email}
+			AND name = #{name}
+			""")
+	Member selectMemberByNameEmail(Member member);
 	
-	public void modifyMember(@Param("id")int id, @Param("loginId")String loginId, @Param("loginPw")String loginPw, @Param("name")String name, @Param("nickname")String nickname, @Param("cellphoneNo")String cellphoneNo, @Param("email")String email);
-	
-	
-	public int getLastInsertId();
-
-	public Member getMemberByLoginId(@Param("loginId")String loginId);
-	
-	public Member getMemberByNameAndEmail(@Param("name")String name, @Param("name")String email);
 }

@@ -2,56 +2,50 @@ package com.kos.exam.boot.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kos.exam.boot.repository.MemberRepository;
+import com.kos.exam.boot.util.Ut;
 import com.kos.exam.boot.vo.Member;
+import com.kos.exam.boot.vo.ResultData;
 
 @Service
 public class MemberService {
+
+	@Autowired
 	private MemberRepository memberRepository;
-
-	public MemberService(MemberRepository memberRepository) {
-		this.memberRepository = memberRepository;
-	}
-
-	public Member getMember(int id) {
-		return memberRepository.getMember(id);
-	}
-
-	public List<Member> getMembers() {
-		return memberRepository.getMembers();
-	}
-
-	public int join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
-		Member oldMember = getMemberByLoginId(loginId);
-		if(oldMember!=null) {
-			return -1;
+	
+	public ResultData<Integer> join(Member member){
+		Member oldMember = memberRepository.selectMemberByLoginId(member.getLoginId());
+		
+		if(oldMember != null) {
+			return ResultData.from("F-7", Ut.f("해당 로그인 아이디(%s)는 이미 사용중입니다.", member.getLoginId()),null);
+		}
+		oldMember = memberRepository.selectMemberByNameEmail(member);
+		if(oldMember != null) {
+			return ResultData.from("F-8", Ut.f("해당 이름(%s)과 이메일(%s)은 이미 사용중입니다.", member.getName(),member.getEmail()),null);
 		}
 		
-		if(getMemberByNameAndEmail(name,email)!=null) {
-			return -2;
-		}
 		
-		else {
-			memberRepository.join(loginId, loginPw, name, nickname, cellphoneNo, email);
-			return memberRepository.getLastInsertId();
-		}
+		memberRepository.insertMember(member);
+		
+		int id = memberRepository.selectLastInsertId(); 
+		
+		return ResultData.from("S-1", "회원가입이 완료되었습니다.",id);
 	}
 
-	private Member getMemberByLoginId(String loginId) {
-		return memberRepository.getMemberByLoginId(loginId);
+	public Member getMemberById(int id) {
+		return memberRepository.selectMemberById(id);
 	}
 	
-	private Member getMemberByNameAndEmail(String name, String email) {
-		return memberRepository.getMemberByNameAndEmail(name, email);
+	public List<Member> getMemberList() {
+		List<Member> memberList = memberRepository.selectMemberList();
+		return memberList;
 	}
 
-	public void deleteMember(int id) {
-		memberRepository.deleteMember(id);
+	public Member getMemberByLoginId(String loginId) {
+		return memberRepository.selectMemberByLoginId(loginId);
 	}
 
-	public void modifyMember(int id, String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
-		memberRepository.modifyMember(id, loginId, loginPw, name, nickname, cellphoneNo, email);
-	}
 }

@@ -9,22 +9,16 @@ import com.kos.exam.boot.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-
 	
-	public Article getArticle(@Param("id") int id);
-
+	public Article getArticle(@Param("id")int id);
 	
 	public List<Article> getArticles();
-
 	
 	public void writeArticle(@Param("title")String title, @Param("body")String body);
-
 	
 	public void deleteArticle(@Param("id")int id);
 
-	
 	public void modifyArticle(@Param("id")int id, @Param("title")String title, @Param("body")String body);
-	
-	
+
 	public int getLastInsertId();
 }
