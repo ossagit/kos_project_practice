@@ -45,7 +45,7 @@ public class ArticleService {
 		return ResultData.from("S-1", Ut.f("%d번 게시물이 수정되었습니다.", id), "Article", article);
 	}
 
-	public ResultData actorCanModify(int actorId, Article article) {
+	public ResultData<?> actorCanModify(int actorId, Article article) {
 		if(article == null) {
 			return ResultData.from("F-1", "권한이 없습니다.");
 		}
