@@ -5,10 +5,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>홈</title>
+<title>게시판</title>
+<link rel="stylesheet" href="/resource/common.css" />
+<script src="/resource/common.js" defer="defer"></script>
 </head>
 <body>
-	<h1>Main Page</h1>
+	<h1>게시물 리스트 페이지</h1>
+	
+	<header>
+		<a href="/">로고</a>
+		<ul>
+			<li><a href="/usr/home/">홈</a></li>
+			<li><a href="/usr/article/list">리스트</a></li>
+		</ul>
+	</header>
 	<hr/>
 	<table border="1">
 		<thead>
@@ -24,8 +34,8 @@
 			<c:forEach var="article" items="${articles }">
 				<tr>
 					<td>${article.id }</td>
-					<td>${article.regDate }</td>
-					<td>${article.updateDate }</td>
+					<td>${article.regDate.substring(2,16) }</td>
+					<td>${article.updateDate.substring(2,16) }</td>
 					<td>${article.memberId }</td>
 					<td><a href="../article.detail?id${article.id }">${article.title }</a></td>
 				</tr>
