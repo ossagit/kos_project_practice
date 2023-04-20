@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kos.exam.boot.service.ArticleService;
+import com.kos.exam.boot.service.MemberService;
 import com.kos.exam.boot.util.Ut;
 import com.kos.exam.boot.vo.Article;
+import com.kos.exam.boot.vo.Member;
 import com.kos.exam.boot.vo.ResultData;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +21,8 @@ import jakarta.servlet.http.HttpSession;
 public class UsrArticleController {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private MemberService memberService;
 
 	// 액션 메서드 시작
 	
@@ -59,7 +63,9 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 		Article article = articleService.getArticle(id);
+		Member member = memberService.getMemberById(article.getMemberId());
 		model.addAttribute("article", article);
+		model.addAttribute("member", member);
 		return "usr/article/detail";
 	}
 	
