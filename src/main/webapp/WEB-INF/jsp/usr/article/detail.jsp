@@ -25,7 +25,7 @@
           </tr>
           <tr>
             <th>작성자</th>
-            <td>${member.nickname}</td>
+            <td>${article.extra_writerName}</td>
           </tr>
           <tr>
             <th>제목</th>
@@ -45,6 +45,8 @@
 	
 	<div class="btns">
 		<button class="btn-text-link" type="button" onclick="history.back();">뒤로가기</button>
+		<a class="btn-text-link" href="../article/modify?id=${article.id} }">수정하기</a>	
+		<a class="btn-text-link" onclick="if( confirm('정말 삭제하시겠습니까?')==false )return false;" href="../article/doDelete?id=${article.id} }">삭제하기</a>	
 	</div>
 	</div>
 </section>
