@@ -22,7 +22,8 @@ public interface MemberRepository {
 			cellphoneNo = #{cellphoneNo},
 			email = #{email}
 			""")
-	void insertMember(Member member);
+	void insertMember(String loginId, String loginPw, String name, String nickname, String cellphoneNo,
+	         String email);
 
 	@Select("""
 			SELECT * FROM MEMBER ORDER BY id DESC
@@ -49,6 +50,6 @@ public interface MemberRepository {
 			WHERE email=#{email}
 			AND name = #{name}
 			""")
-	Member selectMemberByNameEmail(Member member);
+	Member selectMemberByNameEmail(String name, String email);
 	
 }
