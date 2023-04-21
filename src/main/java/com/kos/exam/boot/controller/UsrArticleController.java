@@ -23,25 +23,27 @@ public class UsrArticleController {
 
 	// 액션 메서드 시작
 
-	@RequestMapping("/usr/article/doAdd")
+	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) {
+	public String doWrite(HttpServletRequest req, String title, String body, String replaceUri) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (Ut.empty(title)) {
-			return ResultData.from("F-1", "title을 입력해주세요");
+			return rq.jsHistoryBack("title을 입력해주세요");
 		}
 		if (Ut.empty(body)) {
-			return ResultData.from("F-1", "body을 입력해주세요");
+			return rq.jsHistoryBack("body을 입력해주세요");
 		}
 
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 		int id = writeArticleRd.getData1();
 
-		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+		if(Ut.empty(replaceUri)) {
+			replaceUri = Ut.f("../article/detail?id=%d", id);
+		}
 
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "Article", article);
+		return rq.jsReplace(Ut.f("%d 번 글이 생성되었습니다.", id), replaceUri);
 	}
 	
 	@RequestMapping("/usr/article/write")
@@ -91,12 +93,12 @@ public class UsrArticleController {
 		}
 
 		if (article.getMemberId() != rq.getLoginedMemberId()) {
-			return Ut.jsHistoryBack("권한이 없습니다.");
+			return rq.jsHistoryBack("권한이 없습니다.");
 		}
 
 		articleService.deleteArticle(id);
 
-		return Ut.jsReplace(Ut.f("%d번 게시물을 삭제하였습니다.", id), "../article/list");
+		return rq.jsReplace(Ut.f("%d번 게시물을 삭제하였습니다.", id), "../article/list");
 	}
 
 	@RequestMapping("/usr/article/modify")
@@ -129,7 +131,7 @@ public class UsrArticleController {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		if (article == null) {
-			return Ut.jsHistoryBack(Ut.f("%d번 게시물이 존재하지 않습니다.", id));
+			return rq.jsHistoryBack(Ut.f("%d번 게시물이 존재하지 않습니다.", id));
 		}
 		
 		ResultData actorCanModifyRd = articleService.actorCanModify(rq.getLoginedMemberId(), article);
@@ -140,7 +142,7 @@ public class UsrArticleController {
 		
 		articleService.modifyArticle(id, title, body);
 		
-		return Ut.jsReplace(Ut.f("%d번 글이 수정되었습니다.", id), Ut.f("../article/detail?id=%d", id));
+		return rq.jsReplace(Ut.f("%d번 글이 수정되었습니다.", id), Ut.f("../article/detail?id=%d", id));
 	}
 	// 액션 메서드 끝
 
