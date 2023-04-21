@@ -43,6 +43,11 @@ public class UsrArticleController {
 
 		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "Article", article);
 	}
+	
+	@RequestMapping("/usr/article/write")
+	public String showWrite() {
+		return "usr/article/write";
+	}
 
 	@RequestMapping("/usr/article/list")
 	public String showList(HttpServletRequest req, Model model) {
