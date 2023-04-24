@@ -104,3 +104,11 @@ where id in(1,2);
 update article
 set boardId = 2
 where id in(3);
+
+#게시물 개수 늘리기
+/*insert into article
+(
+    regDate, updateDate, memberId, boardId, title, `body`
+)
+select now(), now(), FLOOR(RAND()*2)+1, FLOOR(RAND()*2)+1, concat('제목_',FLOOR(rand())), CONCAT('내용_',FLOOR(RAND()))
+from article;*/
