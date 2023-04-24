@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kos.exam.boot.service.ArticleService;
+import com.kos.exam.boot.service.BoardService;
 import com.kos.exam.boot.util.Ut;
 import com.kos.exam.boot.vo.Article;
+import com.kos.exam.boot.vo.Board;
 import com.kos.exam.boot.vo.ResultData;
 import com.kos.exam.boot.vo.Rq;
 
@@ -20,7 +22,13 @@ import jakarta.servlet.http.HttpServletRequest;
 public class UsrArticleController {
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private BoardService boardService;
 
+	public UsrArticleController(ArticleService articleService, BoardService boardService) {
+		this.articleService = articleService;
+		this.boardService = boardService;
+	}
 	// 액션 메서드 시작
 
 	@RequestMapping("/usr/article/doWrite")
@@ -52,9 +60,16 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model) {
+	public String showList(HttpServletRequest req, Model model, int boardId) {
+		Board board = boardService.getBoardById(boardId);
 		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if(board ==null) {
+			return rq.historyBackJsOnView(Ut.f("%번 게시판은 존재하지 않습니다.", boardId));
+		}
 		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId());
+				
+		model.addAttribute("board", board);
 		model.addAttribute("articles", articles);
 		return "usr/article/list";
 	}
