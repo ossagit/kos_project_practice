@@ -5,10 +5,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/usr/home")
 public class UsrHomeController {
 
-	@GetMapping("/main")
+	@GetMapping("/usr/home/main")
 	public String showMain() {
 		return "usr/home/main";
 	}
