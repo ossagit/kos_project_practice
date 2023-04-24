@@ -45,9 +45,9 @@ public class Rq {
 		}
 		this.isLogined = isLogined;
 		this.loginedMemberId = loginedMemberId;
-		this.loginedMember=loginedMember;
-		
-		this.req.setAttribute("rq", memberService);
+		this.loginedMember = loginedMember;
+
+		this.req.setAttribute("rq", this);
 	}
 
 	public void printHistoryBackJs(String msg) {
@@ -55,7 +55,7 @@ public class Rq {
 		print(Ut.jsHistoryBack(msg));
 
 	}
-	
+
 	public void print(String str) {
 		try {
 			resp.getWriter().append(str);
@@ -63,9 +63,9 @@ public class Rq {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void println(String str) {
-		print(str+"\n");
+		print(str + "\n");
 	}
 
 	public void login(Member member) {
@@ -75,7 +75,7 @@ public class Rq {
 	public void logout() {
 		session.removeAttribute("loginedMemberId");
 	}
-	
+
 	public String historyBackJsOnView(String msg) {
 		req.setAttribute("msg", msg);
 		req.setAttribute("historyBack", true);
@@ -85,7 +85,7 @@ public class Rq {
 	public String jsHistoryBack(String msg) {
 		return Ut.jsHistoryBack(msg);
 	}
-	
+
 	public String jsReplace(String msg, String uri) {
 		return Ut.jsReplace(msg, uri);
 	}
