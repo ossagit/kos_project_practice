@@ -12,7 +12,7 @@ public interface ArticleRepository {
 	
 	public Article getForPrintArticle(@Param("id")int id);
 	
-	public List<Article> getForPrintArticles(@Param("boardId")int boardId);
+	public List<Article> getForPrintArticles(@Param("boardId")int boardId, @Param("limitStart")int limitStart, @Param("limitTake")int limitTake);
 	
 	public void writeArticle(@Param("memberId")int memberId, @Param("title")String title, @Param("boardId")int boardId, @Param("body")String body);
 	

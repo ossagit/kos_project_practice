@@ -2,10 +2,10 @@ package com.kos.exam.boot.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kos.exam.boot.service.ArticleService;
@@ -15,8 +15,6 @@ import com.kos.exam.boot.vo.Article;
 import com.kos.exam.boot.vo.Board;
 import com.kos.exam.boot.vo.ResultData;
 import com.kos.exam.boot.vo.Rq;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrArticleController {
@@ -59,7 +57,7 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
+	public String showList(Model model, @RequestParam(defaultValue = "1")int boardId, @RequestParam(defaultValue = "1")int page) {
 		Board board = boardService.getBoardById(boardId);
 		
 		if(board ==null) {
@@ -67,7 +65,8 @@ public class UsrArticleController {
 		}
 		
 		int articlesCount = articleService.getArticlesCount(boardId);
-		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId);
+		int itemsCountInAPage = 10;
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId, itemsCountInAPage, page);
 				
 		model.addAttribute("board", board);		
 		model.addAttribute("articlesCount", articlesCount);
