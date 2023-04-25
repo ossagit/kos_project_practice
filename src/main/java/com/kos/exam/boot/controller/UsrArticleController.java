@@ -18,7 +18,7 @@ import com.kos.exam.boot.vo.Rq;
 
 @Controller
 public class UsrArticleController {
-	
+
 	private ArticleService articleService;
 	private BoardService boardService;
 	private Rq rq;
@@ -33,7 +33,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(int boardId, String title, String body, String replaceUri) {
-		
+
 		if (Ut.empty(title)) {
 			return rq.jsHistoryBack("title을 입력해주세요");
 		}
@@ -41,38 +41,42 @@ public class UsrArticleController {
 			return rq.jsHistoryBack("body을 입력해주세요");
 		}
 
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(boardId,rq.getLoginedMemberId(), title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(boardId, rq.getLoginedMemberId(), title, body);
 		int id = writeArticleRd.getData1();
 
-		if(Ut.empty(replaceUri)) {
+		if (Ut.empty(replaceUri)) {
 			replaceUri = Ut.f("../article/detail?id=%d", id);
 		}
 
 		return rq.jsReplace(Ut.f("%d 번 글이 생성되었습니다.", id), replaceUri);
 	}
-	
+
 	@RequestMapping("/usr/article/write")
 	public String showWrite() {
 		return "usr/article/write";
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, @RequestParam(defaultValue = "1")int boardId, @RequestParam(defaultValue = "1")int page, @RequestParam(defaultValue = "title, body")String searchKeywordTypeCode, @RequestParam(defaultValue = "")String searchKeyword) {
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page,
+			@RequestParam(defaultValue = "title, body") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword) {
 		Board board = boardService.getBoardById(boardId);
-		
-		if(board ==null) {
+
+		if (board == null) {
 			return rq.historyBackJsOnView(Ut.f("%번 게시판은 존재하지 않습니다.", boardId));
 		}
-		
+
 		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 		int itemsCountInAPage = 10;
-		int pagesCount = (int)Math.ceil((double)articlesCount/itemsCountInAPage);
-		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId, searchKeywordTypeCode, searchKeyword, itemsCountInAPage, page);
-				
+		int pagesCount = (int) Math.ceil((double) articlesCount / itemsCountInAPage);
+		List<Article> articles = articleService.getForPrintArticles(rq.getLoginedMemberId(), boardId,
+				searchKeywordTypeCode, searchKeyword, itemsCountInAPage, page);
+
 		model.addAttribute("board", board);
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("page", page);
-		model.addAttribute("pagesCount", pagesCount);		
+		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("articles", articles);
 		return "usr/article/list";
@@ -84,24 +88,24 @@ public class UsrArticleController {
 		model.addAttribute("article", article);
 		return "usr/article/detail";
 	}
-	
+
 	@RequestMapping("/usr/article/doIncreaseHitCountRd")
 	@ResponseBody
 	public ResultData<Integer> doIncreaseHitCountRd(int id) {
-		
+
 		ResultData<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
-		
-		if(increaseHitCountRd.isFail()) {
+
+		if (increaseHitCountRd.isFail()) {
 			return increaseHitCountRd;
 		}
-		
+
 		return ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
 	}
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
 	public ResultData<Article> getArticle(int id) {
-		
+
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		if (article == null) {
@@ -144,9 +148,9 @@ public class UsrArticleController {
 		if (actorCanModifyRd.isFail()) {
 			return rq.historyBackJsOnView(actorCanModifyRd.getMsg());
 		}
-		
+
 		model.addAttribute("article", article);
-		
+
 		return "usr/article/modify";
 	}
 
@@ -159,15 +163,15 @@ public class UsrArticleController {
 		if (article == null) {
 			return rq.jsHistoryBack(Ut.f("%d번 게시물이 존재하지 않습니다.", id));
 		}
-		
+
 		ResultData actorCanModifyRd = articleService.actorCanModify(rq.getLoginedMemberId(), article);
-		
+
 		if (actorCanModifyRd.isFail()) {
 			return rq.historyBackJsOnView(actorCanModifyRd.getMsg());
 		}
-		
+
 		articleService.modifyArticle(id, title, body);
-		
+
 		return rq.jsReplace(Ut.f("%d번 글이 수정되었습니다.", id), Ut.f("../article/detail?id=%d", id));
 	}
 	// 액션 메서드 끝

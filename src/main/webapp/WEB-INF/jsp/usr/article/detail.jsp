@@ -3,6 +3,29 @@
 <c:set var="pageTitle" value="게시물 내용"/>
 <%@include file="../common/head.jspf" %>
 
+<script>
+const params = {}
+params.id = parseInt('${param.id}');
+</script>
+
+<script>
+function ArticleDetail_increseHitCount(){
+	$.get(
+		'../article/doIncreaseHitCountRd',
+		{
+			id : params.id
+			ajaxMode : 'Y'
+		},function(data){
+			$('.article-detail_hit-count').empty().html(data.data1)
+		}, 'json');
+}
+$(function(){
+	//실전
+	ArticleDetail_increseHitCount();
+//	임시코드
+//	setTimeout(ArticleDetail_increseHitCount, 3000);
+})
+</script>
 <section class="mt-5">
 	<div class="container mx-auto px-3">
     <div class="table-box-type-1">
@@ -30,7 +53,7 @@
           <tr>
             <th>조회수</th>
             <td>
-              ${article.hitCount}
+              <span class="badge badge-primary article-detail_hit-count">${article.hitCount}</span>
             </td>
           </tr>
           <tr>
