@@ -112,3 +112,6 @@ where id in(3);
 )
 select now(), now(), FLOOR(RAND()*2)+1, FLOOR(RAND()*2)+1, concat('제목_',FLOOR(rand())), CONCAT('내용_',FLOOR(RAND()))
 from article;*/
+
+ALTER TABLE article
+ADD COLUMN hitCount INT(10) UNSIGNED NOT NULL DEFAULT 0;

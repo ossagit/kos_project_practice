@@ -1,7 +1,9 @@
 package com.kos.exam.boot.vo;
 
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 public class ResultData<DT>{
 
 	@Getter

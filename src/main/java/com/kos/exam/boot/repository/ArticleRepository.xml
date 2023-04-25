@@ -38,7 +38,7 @@
   			</choose>
 		</if>
 		ORDER BY A.id DESC
-		<if test="limitStart != -1">
+		<if test="limitTake != -1">
 			LIMIT #{limitStart}, #{limitTake}
 		</if>
 	</select>
@@ -97,6 +97,11 @@
 			</if>
 		updateDate = NOW()
 		</set>
+		WHERE id = #{id}
+	</update>
+	<update id="increaseHitCount">
+		UPDATE article
+		SET hitCount = hitCount + 1
 		WHERE id = #{id}
 	</update>
 </mapper> 
