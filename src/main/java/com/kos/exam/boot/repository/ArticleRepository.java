@@ -12,7 +12,7 @@ public interface ArticleRepository {
 	
 	public Article getForPrintArticle(@Param("id")int id);
 	
-	public List<Article> getForPrintArticles(@Param("boardId")int boardId, @Param("limitStart")int limitStart, @Param("limitTake")int limitTake);
+	public List<Article> getForPrintArticles(@Param("boardId")int boardId, int limitStart, int limitTake);
 	
 	public void writeArticle(@Param("memberId")int memberId, @Param("title")String title, @Param("boardId")int boardId, @Param("body")String body);
 	
@@ -22,5 +22,5 @@ public interface ArticleRepository {
 
 	public int getLastInsertId();
 
-	public int getArticlesCount(@Param("boardId")int boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 }
