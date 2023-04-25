@@ -80,16 +80,22 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
+		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+		model.addAttribute("article", article);
+		return "usr/article/detail";
+	}
+	
+	@RequestMapping("/usr/article/doIncreaseHitCountRd")
+	@ResponseBody
+	public ResultData<Integer> doIncreaseHitCountRd(int id) {
 		
 		ResultData<Integer> increaseHitCountRd = articleService.increaseHitCount(id);
 		
 		if(increaseHitCountRd.isFail()) {
-			return rq.historyBackJsOnView(increaseHitCountRd.getMsg());
+			return increaseHitCountRd;
 		}
-		System.out.println(increaseHitCountRd);
-		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-		model.addAttribute("article", article);
-		return "usr/article/detail";
+		
+		return ResultData.newData(increaseHitCountRd, "hitCount", articleService.getArticleHitCount(id));
 	}
 
 	@RequestMapping("/usr/article/getArticle")
