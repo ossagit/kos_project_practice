@@ -16,11 +16,14 @@ public class ResultData<DT>{
 	private String data1Name;
 	
 	@Getter
+	private String data2Name;
+	
+	@Getter
 	private DT data1;
 	
-	private ResultData() {
-		
-	}
+	@Getter
+	private Object data2;
+
 	
 	public static<DT> ResultData<DT> from(String resultCode, String msg) {
 		return from(resultCode, msg, null, null);
@@ -46,6 +49,11 @@ public class ResultData<DT>{
 
 	public static <DT> ResultData<DT> newData(ResultData<?> oldRd, String data1Name, DT newData) {
 		return from(oldRd.getResultCode(), oldRd.getMsg(), data1Name, newData);
+	}
+
+	public void setData2(String dataName, Object data) {
+		data2Name = dataName;
+		data2 = data;
 	}
 	
 }
