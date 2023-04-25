@@ -10,10 +10,18 @@ params.id = parseInt('${param.id}');
 
 <script>
 function ArticleDetail_increseHitCount(){
+	const localStorageKey = 'article_'+params.id+'_viewDone';
+	
+	if(localStorage.getItem(localStorageKey)){
+		return;
+	}
+	
+	localStorage.setItem(localStorageKey, true);
+	
 	$.get(
 		'../article/doIncreaseHitCountRd',
 		{
-			id : params.id
+			id : params.id,
 			ajaxMode : 'Y'
 		},function(data){
 			$('.article-detail_hit-count').empty().html(data.data1)
