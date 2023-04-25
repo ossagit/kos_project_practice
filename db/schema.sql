@@ -115,3 +115,42 @@ from article;*/
 
 ALTER TABLE article
 ADD COLUMN hitCount INT(10) UNSIGNED NOT NULL DEFAULT 0;
+
+#like 테이블 생성
+CREATE TABLE reactionPoint(
+id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+regDate DATETIME NOT NULL,
+updateDate DATETIME NOT NULL,
+memberId INT(10) UNSIGNED NOT NULL,
+relTypeCode CHAR(30) NOT NULL COMMENT '관련데이터타입코드',
+relId INT(10) UNSIGNED NOT NULL COMMENT '관련데이터번호',
+`point` SMALLINT(2) NOT NULL
+);
+
+#리액션 포인트테스트
+#1번회원이 2번 article에 대해 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 2,
+`point` = -1;
+
+#2번회원이 2번 article에 대해 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 2,
+`point` = 1;
+
+#3번회원이 2번 article에 대해 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 2,
+`point` = 1;
