@@ -61,7 +61,21 @@ $(function(){
           <tr>
             <th>조회수</th>
             <td>
-              <span class="badge badge-primary article-detail_hit-count">${article.hitCount}</span>
+              <span class="text-blue-700 article-detail_hit-count">${article.hitCount}</span>
+            </td>
+          </tr>
+          <tr>
+            <th>추천</th>
+            <td>
+              <div class="flex items-center">
+              	<span class="text-blue-700">${article.extra_goodReactionPoint}</span>
+              	<span>&nbsp;</span>
+              	<c:if test="${actorCanMakeReactionPoint }">
+              	<button class="btn btn-xs btn-outline btn-primary">우와아!!👍</button>
+              	<span>&nbsp;</span>
+				<button class="btn btn-xs btn-outline btn-secondary">우우~~~👎</button>
+				</c:if>
+              </div>
             </td>
           </tr>
           <tr>

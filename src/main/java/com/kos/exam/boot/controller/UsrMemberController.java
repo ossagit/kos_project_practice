@@ -71,7 +71,7 @@ public class UsrMemberController {
       
       rq.logout();
 
-      return rq.jsReplace("로그아웃 되었습니다.","/usr/home/");
+      return rq.jsReplace("로그아웃 되었습니다.","/usr/home/main");
    }
 
    @RequestMapping("/usr/member/login")
@@ -107,7 +107,7 @@ public class UsrMemberController {
       
       rq.login(member);
 
-      return rq.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()),"/usr/home/");
+      return rq.jsReplace(Ut.f("%s님 환영합니다.", member.getNickname()),"/usr/home/main");
    }
    
 
