@@ -71,9 +71,9 @@ $(function(){
               	<span class="text-blue-700">${article.goodReactionPoint}</span>
               	<span>&nbsp;</span>
               	<c:if test="${actorCanMakeReactionPoint }">
-              	<button class="btn btn-xs btn-outline btn-primary">우와아!!👍</button>
+              	<a href="/usr/reactionPoint/doGoodReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri }" class="btn btn-xs btn-outline btn-primary">우와아!!👍</a>
               	<span>&nbsp;</span>
-				<button class="btn btn-xs btn-outline btn-secondary">우우~~~👎</button>
+				<a href="/usr/reactionPoint/doBadReaction?relTypeCode=article&relId=${param.id }&replaceUri=${rq.encodedCurrentUri }" class="btn btn-xs btn-outline btn-secondary">우우~~~👎</a>
 				</c:if>
               </div>
             </td>

@@ -119,4 +119,16 @@
 		AND RP.id = #{id}
 		AND RP.memberId= #{memberId}
 	</select>
+	
+	<update id="increaseGoodReactionPoint">
+		UPDATE article
+		SET GoodReactionPoint = GoodReactionPoint + 1
+		WHERE id = #{id}
+	</update>
+	
+	<update id="increaseBadReactionPoint">
+		UPDATE article
+		SET BadReactionPoint = BadReactionPoint + 1
+		WHERE id = #{id}
+	</update>
 </mapper> 
