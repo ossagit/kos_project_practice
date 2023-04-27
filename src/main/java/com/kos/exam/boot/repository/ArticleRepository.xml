@@ -122,13 +122,25 @@
 	
 	<update id="increaseGoodReactionPoint">
 		UPDATE article
-		SET GoodReactionPoint = GoodReactionPoint + 1
+		SET goodReactionPoint = goodReactionPoint + 1
 		WHERE id = #{id}
 	</update>
 	
 	<update id="increaseBadReactionPoint">
 		UPDATE article
-		SET BadReactionPoint = BadReactionPoint + 1
+		SET badReactionPoint = badReactionPoint + 1
+		WHERE id = #{id}
+	</update>
+	
+	<update id="decreaseGoodReactionPoint">
+		UPDATE article
+		SET goodReactionPoint = goodReactionPoint - 1
+		WHERE id = #{id}
+	</update>
+	
+	<update id="decreaseBadReactionPoint">
+		UPDATE article
+		SET badReactionPoint = badReactionPoint - 1
 		WHERE id = #{id}
 	</update>
 </mapper> 
