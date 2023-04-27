@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kos.exam.boot.service.ArticleService;
 import com.kos.exam.boot.service.BoardService;
 import com.kos.exam.boot.service.ReactionPointService;
+import com.kos.exam.boot.service.ReplyService;
 import com.kos.exam.boot.util.Ut;
 import com.kos.exam.boot.vo.Article;
 import com.kos.exam.boot.vo.Board;
+import com.kos.exam.boot.vo.Reply;
 import com.kos.exam.boot.vo.ResultData;
 import com.kos.exam.boot.vo.Rq;
 
@@ -23,12 +25,14 @@ public class UsrArticleController {
 	private ArticleService articleService;
 	private BoardService boardService;
 	private ReactionPointService reactionPointService;
+	private ReplyService replyService;
 	private Rq rq;
 
-	public UsrArticleController(ArticleService articleService, BoardService boardService, ReactionPointService reactionPointService, Rq rq) {
+	public UsrArticleController(ArticleService articleService, BoardService boardService, ReactionPointService reactionPointService, ReplyService replyService, Rq rq) {
 		this.articleService = articleService;
 		this.boardService = boardService;
 		this.reactionPointService = reactionPointService;
+		this.replyService = replyService;
 		this.rq = rq;
 	}
 	// 액션 메서드 시작
@@ -90,6 +94,10 @@ public class UsrArticleController {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		model.addAttribute("article", article);
 		
+		
+		List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "article", id);
+		int repliesCount = replies.size();
+		model.addAttribute("repliesCount", repliesCount);
 		ResultData actorCanMakeReactionPointRd = reactionPointService.actorCanMakeReactionPoint(rq.getLoginedMemberId(),"article",id);
 		model.addAttribute("actorCanMakeReaction", actorCanMakeReactionPointRd.isSuccess());
 		if(actorCanMakeReactionPointRd.getResultCode().equals("F-2")) {
