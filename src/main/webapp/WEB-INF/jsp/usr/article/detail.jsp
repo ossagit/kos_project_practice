@@ -160,12 +160,6 @@ $(function(){
         <col width="200"/>
       </colgroup>
         <tbody>
-        	<tr>
-            <th>relId</th>
-            <td>
-              ${article.id }
-            </td>
-          </tr>
           <tr>
             <th>작성자</th>
             <td>
@@ -195,7 +189,50 @@ $(function(){
 </section>
 <section class="mt-5">
 	<div class="container mx-auto px-3">
-		<h1>댓글리스트 (${repliesCount })</h1>
+		<h1>댓글리스트 (${replies.size()})</h1>
+		<table class="table table-fixed w-full">
+        <colgroup>	
+          <col width="50"/>
+          <col width="100"/>
+          <col width="100"/>
+          <col width="50"/>
+          <col width="100"/>
+          <col width="150"/>
+          <col />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>작성날짜</th>
+            <th>수정날짜</th>
+            <th>추천</th>
+            <th>작성자</th>
+            <th>비고</th>
+            <th>내용</th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="reply" items="${replies}">
+            <tr class="hover">
+              <th>${reply.id}</th>
+              <td>${reply.forPrintintType1RegDate()}</td>
+              <td>${reply.forPrintintType1UpdateDate()}</td>
+              <td>${reply.goodReactionPoint}</td>
+              <td>${reply.extra_writerName}</td>
+              <td>
+              	<c:if test="${reply.extra_actorCanModify }">
+					<a class="btn btn-link" href="../reply/modify?id=${reply.id}">수정</a>
+				</c:if>
+				<c:if test="${reply.extra_actorCanDelete }">
+					<a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?')==false )return false;" href="../reply/doDelete?id=${reply.id}">삭제</a>
+				</c:if>
+              </td>
+              <td>${reply.forPrintBody}</td>
+            </tr>
+          </c:forEach>
+        </tbody>
+      </table>
+		
 	</div>
 </section>
 <%@include file="../common/foot.jspf" %>
