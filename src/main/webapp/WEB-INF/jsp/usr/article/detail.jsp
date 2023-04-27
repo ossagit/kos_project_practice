@@ -34,6 +34,33 @@ $(function(){
 //	setTimeout(ArticleDetail_increseHitCount, 3000);
 })
 </script>
+
+<script>
+	let ReplyWrite_submitFormDone=false;
+	function ReplyWrite_submitForm(form){
+		if(ReplyWrite_submitFormDone){
+			return;
+		}
+		form.body.value = form.body.value.trim();
+		
+		if(form.body.value.length==0){
+			alert('댓글을 입력해주세요.');
+			form.body.focus();
+			return;
+		}
+		
+		if(form.body.value.length<2){
+			alert('댓글을 2자 이상 입력해주세요.');
+			form.body.focus();
+			return;
+		}
+		
+		ReplyWrite_submitFormDone = true;
+		form.submit();
+	}
+	
+</script>
+
 <section class="mt-5">
 	<div class="container mx-auto px-3">
     <div class="table-box-type-1">
