@@ -297,3 +297,12 @@ memberId = 4,
 relTypeCode = 'article',
 relId = 1,
 `body` = '댓글 4';
+
+#댓글 테이블 goodReactionPoint 컬럼 추가
+ALTER TABLE reply
+ADD COLUMN goodReactionPoint INT(10)UNSIGNED NOT NULL DEFAULT 0;
+#댓글 테이블 badReactionPoint 컬럼 추가
+ALTER TABLE reply
+ADD COLUMN badReactionPoint INT(10)UNSIGNED NOT NULL DEFAULT 0;
+
+ALTER TABLE `reply` ADD INDEX (`relTypeCode`, `relId`);
