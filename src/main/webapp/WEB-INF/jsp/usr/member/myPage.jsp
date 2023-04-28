@@ -6,6 +6,7 @@
 
 	<section class="mt-5">
 		<div class="container mx-auto">
+		<div class="table-box-type-1">
 				<table>
 				<colgroup>
 				<col width="200" />
@@ -34,13 +35,14 @@
 						<tr>
 							<th>비고</th>
 							<td>
-							<a href="../member/checkPassword" class="btn btn-primary">회원정보수정</a>
-							<button type="button" class="btn-btn outline btn-info" onclick="history.back();">뒤로</button>
+							<a href="../member/checkPassword?replaceUri=${Ut.getUriEncoded('../member/modify') }" class="btn btn-primary">회원정보수정</a>
+							<button type="button" class="btn btn-outline btn-info" onclick="history.back();">뒤로</button>
 							</td>
 						</tr>
 
 					</tbody>
 				</table>
+				</div>
 		</div>
 	</section>
 <%@ include file="../common/foot.jspf" %>
