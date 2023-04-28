@@ -3,9 +3,29 @@
 <c:set var="pageTitle" value="게시물 내용"/>
 <%@include file="../common/head.jspf" %>
 
+<script>
+	let ArticleModify_submitDone=false;
+	function ArticleModify_submit(form){
+		if(ArticleModify_submitDone){
+			return;
+		}
+		form.body.value = form.body.value.trim();
+		
+		if(form.body.value.length==0){
+			alert('내용을 입력해주세요.');
+			form.body.focus();
+			return;
+		}
+		
+		ArticleModify_submitDone = true;
+		form.submit();
+	}
+	
+</script>
+
 <section class="mt-5">
 	<div class="container mx-auto px-3">
-	<form class="table-box-type-1" method="POST" action="../article/doModify">
+	<form class="table-box-type-1" method="POST" action="../article/doModify" onsubmit="ArticleModify_submit">
 	<input type="hidden" name="id" value="${article.id}" />
       <table>
       <colgroup>
@@ -35,7 +55,7 @@
             </td>
           </tr>
           <tr>
-            <th>추천수</th>
+            <th>추천</th>
             <td>
               <span class="text-blue-700">${article.goodReactionPoint}</span>
             </td>
@@ -49,7 +69,7 @@
           <tr>
             <th>내용</th>
             <td>
-              <textarea type="text" class="w-96 w-full textarea textarea-bordered" name="body" placeholder="내용" value="${article.body}" ></textarea>
+              <textarea class="w-96 w-full textarea textarea-bordered" name="body" placeholder="내용">${article.body}</textarea>
             </td>
           </tr>
           <tr>

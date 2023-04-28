@@ -1,6 +1,7 @@
 package com.kos.exam.boot.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -23,7 +24,7 @@ public class UsrReplyController {
 	
 	@RequestMapping("/usr/reply/doWrite")
 	@ResponseBody
-	String doWrite(String relTypeCode, int relId, String body, String replaceUri) {
+	public String doWrite(String relTypeCode, int relId, String body, String replaceUri) {
 		if(Ut.empty(relTypeCode)) {
 			return rq.jsHistoryBack("relTypeCode를 입력해주세요.");
 		}
@@ -50,7 +51,7 @@ public class UsrReplyController {
 	
 	@RequestMapping("/usr/reply/doDelete")
 	@ResponseBody
-	String doDelete(int id, String replaceUri) {
+	public String doDelete(int id, String replaceUri) {
 		if(Ut.empty(id)) {
 			return rq.jsHistoryBack("id를 입력해주세요.");
 		}
@@ -75,6 +76,27 @@ public class UsrReplyController {
 			}
 		}
 		return rq.jsReplace(deleteReplyRd.getMsg(), replaceUri);
+	}
+	
+	@RequestMapping("/usr/reply/doModify")
+	public String doModify(Model model, int id, String replaceUri) {
+		if(Ut.empty(id)) {
+			return rq.jsHistoryBack("id를 입력해주세요.");
+		}
+		
+		Reply reply = replyService.getForPrintReply(rq.getLoginedMemberId(), id);
+		
+		if(reply == null) {
+			return rq.jsHistoryBack(Ut.f("%d번 댓글이 존재하지 않습니다.", id));
+		}
+		
+		if(reply.isExtra_actorCanModify()==false) {
+			return rq.jsHistoryBack(Ut.f("%d번 댓글을 수정할 권한이 없습니다.", id));
+		}
+		
+		model.addAttribute("reply",reply);
+		
+		return "/usr/reply/modify";
 	}
 
 }
