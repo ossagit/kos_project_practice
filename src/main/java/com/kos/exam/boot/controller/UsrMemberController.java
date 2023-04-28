@@ -117,4 +117,9 @@ public class UsrMemberController {
       return memberService.getMembers();
    }
 
+   @RequestMapping("/usr/member/myPage")
+   public String showMyPage() {
+	   return "/usr/member/myPage";
+   }
+
 }
