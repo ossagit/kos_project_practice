@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="Ut" value="com.kos.exam.boot.vo.Ut"/>
 <c:set var="pageTitle" value="게시물 내용"/>
 <%@include file="../common/head.jspf" %>
 <%@include file="../../common/toastUiEditorLib.jspf" %>
@@ -140,7 +141,12 @@ $(function(){
     </div>
 	
 	<div class="btns">
-		<button class="btn btn-link" type="button" onclick="history.back();">뒤로가기</button>
+		<c:if test="${empty param.listUri }">
+			<button class="btn btn-link" type="button" onclick="history.back();">뒤로가기</button>
+		</c:if>
+		<c:if test="${not empty param.listUri }">
+			<button class="btn btn-link" type="button" onclick="${param.listUri}">뒤로가기</button>
+		</c:if>
 		<c:if test="${article.extra_actorCanModify }">
 		<a class="btn btn-link" href="../article/modify?id=${article.id}">수정하기</a>	
 		</c:if>
@@ -156,6 +162,7 @@ $(function(){
 	<h1>댓글 작성</h1>
 	<c:if test="${rq.isLogined() }">
 	<form class="table-box-type-1" method="POST" action="../reply/doWrite" onsubmit="ReplyWrite_submitForm(this); return false;">
+	<input type="hidden" name="replaceUri" value="${rq.currentUri }" />
 	<input type="hidden" name="relTypeCode" value="article" />
 	<input type="hidden" name="relId" value="${article.id}" />
       <table>
@@ -224,10 +231,10 @@ $(function(){
               <td>${reply.extra_writerName}</td>
               <td>
               	<c:if test="${reply.extra_actorCanModify }">
-					<a class="btn btn-link" href="../reply/modify?id=${reply.id}">수정</a>
+					<a class="btn btn-link" href="../reply/modify?id=${reply.id}&replaceUri=${rq.encodedCurrentUri}">수정</a>
 				</c:if>
 				<c:if test="${reply.extra_actorCanDelete }">
-					<a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?')==false )return false;" href="../reply/doDelete?id=${reply.id}">삭제</a>
+					<a class="btn btn-link" onclick="if( confirm('정말 삭제하시겠습니까?')==false )return false;" href="../reply/doDelete?id=${reply.id}&replaceUri=${rq.encodedCurrentUri}">삭제</a>
 				</c:if>
               </td>
               <td>${reply.forPrintBody}</td>

@@ -39,7 +39,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(Integer boardId, String title, String body, String replaceUri) {
+	public String doWrite(@RequestParam(defaultValue="1") Integer boardId, String title, String body, String replaceUri) {
 		
 		if(Ut.empty(boardId)) {
 			return rq.jsHistoryBack("게시판을 선택해주세요.");
