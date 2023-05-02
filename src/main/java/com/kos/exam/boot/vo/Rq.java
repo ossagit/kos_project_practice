@@ -1,6 +1,7 @@
 package com.kos.exam.boot.vo;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -28,6 +29,7 @@ public class Rq {
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private HttpSession session;
+	private Map<String, String> paramMap;
 
 	public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) {
 
@@ -35,6 +37,7 @@ public class Rq {
 		this.resp = resp;
 		this.session = req.getSession();
 
+		paramMap = Ut.getParamMap(req);
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 
@@ -117,5 +120,38 @@ public class Rq {
 	public void printReplaceJs(String msg, String uri) {
 		resp.setContentType("text/html; charset=UTF-8");
 		print(Ut.jsReplace(msg, uri));
+	}
+
+	public String getLoginUri() {
+		return "../member/login?afterLoginUri="+getAfterLoginUri();
+	}
+
+	private String getAfterLoginUri() {
+		String requestUri = req.getRequestURI();
+		
+		switch(requestUri) {
+		case "/usr/member/login":
+		case "/usr/member/join":
+		case "/usr/member/findLoginId":
+		case "/usr/member/findLogPw":
+			return Ut.getUriEncoded(Ut.getStrAttr(paramMap,"afterLoginUri",""));
+		}
+		return getEncodedCurrentUri();
+	}
+	
+	public String getLogoutUri() {
+		return "../member/doLogout?afterLogoutUri="+getAfterLogoutUri();
+	}
+	
+	private String getAfterLogoutUri() {
+		String requestUri = req.getRequestURI();
+		
+//		switch(requestUri) {
+//		case "/usr/article/write":
+//
+//			return "";
+//		}
+	
+		return getEncodedCurrentUri();
 	}
 }

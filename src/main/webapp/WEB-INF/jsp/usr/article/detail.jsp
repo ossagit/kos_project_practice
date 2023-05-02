@@ -154,7 +154,7 @@ $(function(){
 <section class="mt-5">
 	<div class="container mx-auto px-3">
 	<h1>댓글 작성</h1>
-	<c:if test="${rq.isLogined() }">
+	<c:if test="${rq.isLogined }">
 	<form class="table-box-type-1" method="POST" action="../reply/doWrite" onsubmit="ReplyWrite_submitForm(this); return false;">
 	<input type="hidden" name="relTypeCode" value="article" />
 	<input type="hidden" name="relId" value="${article.id}" />
@@ -186,7 +186,7 @@ $(function(){
 	</form>
 	</c:if>
 	<c:if test="${rq.isNotLogined() }">
-	<a class="btn btn-link" href="/usr/member/login">로그인</a>후 이용해주세요
+	<a class="btn btn-link" href="${rq.loginUri() }">로그인</a>후 이용해주세요
 	</c:if>
 	</div>
 </section>
