@@ -145,7 +145,7 @@ $(function(){
 			<button class="btn btn-link" type="button" onclick="history.back();">뒤로가기</button>
 		</c:if>
 		<c:if test="${not empty param.listUri }">
-			<button class="btn btn-link" type="button" onclick="${param.listUri}">뒤로가기</button>
+			<a class="btn btn-link" type="button" href="${param.listUri}">뒤로가기</a>
 		</c:if>
 		<c:if test="${article.extra_actorCanModify }">
 		<a class="btn btn-link" href="../article/modify?id=${article.id}">수정하기</a>	
@@ -193,7 +193,7 @@ $(function(){
 	</form>
 	</c:if>
 	<c:if test="${rq.isNotLogined() }">
-	<a class="btn btn-link" href="${rq.loginUri() }">로그인</a>후 이용해주세요
+	<a class="btn btn-link" href="${rq.loginUri }">로그인</a>후 이용해주세요
 	</c:if>
 	</div>
 </section>

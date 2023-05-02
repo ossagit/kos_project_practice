@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="pageTitle" value="게시물 내용"/>
+<c:set var="pageTitle" value="회원정보 수정"/>
 <%@include file="../common/head.jspf" %>
 
 <script>
@@ -66,7 +66,7 @@
 
 <section class="mt-5">
 	<div class="container mx-auto px-3">
-	<form class="table-box-type-1" method="POST" action="../member/doModify" onsubmit="MemberModify_submit">
+	<form class="table-box-type-1" method="POST" action="../member/doModify" onsubmit="MemberModify_submit(this); return false;">
 	<input type="hidden" name="memberModifyAuthKey" value="${param.memberModifyAuthKey}" />
       <table>
       <colgroup>
